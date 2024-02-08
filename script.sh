@@ -17,6 +17,7 @@ echo '::endgroup::'
 
 if [ "${INPUT_SKIP_INSTALL}" = "false" ]; then
   echo '::group:: Installing rubocop with extensions ... https://github.com/rubocop/rubocop'
+  echo "gemfile value is ${INPUT_BUNDLE_GEMFILE}"
   # if 'gemfile' rubocop version selected
   if [ "${INPUT_RUBOCOP_VERSION}" = "gemfile" ]; then
     # if Gemfile.lock is here
