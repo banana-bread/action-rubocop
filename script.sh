@@ -17,16 +17,12 @@ echo '::endgroup::'
 
 if [ "${INPUT_SKIP_INSTALL}" = "false" ]; then
   echo '::group:: Installing rubocop with extensions ... https://github.com/rubocop/rubocop'
-  echo "gemfile value is ${INPUT_BUNDLE_GEMFILE}"
-  # Print the current directory and list all files
-  echo "Current directory: $(pwd)"
-  ls -la
   # if 'gemfile' rubocop version selected
   if [ "${INPUT_RUBOCOP_VERSION}" = "gemfile" ]; then
     # if Gemfile.lock is here
     if [ -f "${INPUT_BUNDLE_GEMFILE}.lock" ]; then
       # grep for rubocop version
-      RUBOCOP_GEMFILE_VERSION=$(ruby -ne "print \$& if /^\s{4}rubocop\s\(\K.*(?=\))/" \"${INPUT_BUNDLE_GEMFILE}.lock\")
+      RUBOCOP_GEMFILE_VERSION=$(ruby -ne 'print $& if /^\s{4}rubocop\s\(\K.*(?=\))/' Gemfile.shopify.lock)
 
       # if rubocop version found, then pass it to the gem install
       # left it empty otherwise, so no version will be passed
@@ -56,7 +52,7 @@ if [ "${INPUT_SKIP_INSTALL}" = "false" ]; then
       # if Gemfile.lock is here
       if [ -f "${INPUT_BUNDLE_GEMFILE}.lock" ]; then
         # grep for rubocop extension version
-        RUBOCOP_EXTENSION_GEMFILE_VERSION=$(ruby -ne "print \$& if /^\s{4}\$INPUT_RUBOCOP_EXTENSION_NAME\s\(\K.*(?=\))/" \"${INPUT_BUNDLE_GEMFILE}.lock\")
+        RUBOCOP_EXTENSION_GEMFILE_VERSION=$(ruby -ne "print $& if /^\s{4}$INPUT_RUBOCOP_EXTENSION_NAME\s\(\K.*(?=\))/" Gemfile.shopify.lock)
 
         # if rubocop extension version found, then pass it to the gem install
         # left it empty otherwise, so no version will be passed
