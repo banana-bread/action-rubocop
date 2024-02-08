@@ -46,6 +46,9 @@ inputs:
   use_bundler:
     description: "Run Rubocop with bundle exec. Default: `false`"
     default: 'false'
+  bundle_gemfile:
+    description: "The gemfile to use"
+    default: 'Gemfile'
 runs:
   using: 'composite'
   steps:
@@ -68,6 +71,7 @@ runs:
         INPUT_WORKDIR: ${{ inputs.workdir }}
         INPUT_SKIP_INSTALL: ${{ inputs.skip_install }}
         INPUT_USE_BUNDLER: ${{ inputs.use_bundler }}
+        INPUT_BUNDLE_GEMFILE: ${{ inputs.bundle_gemfile }}
 branding:
   icon: 'check-circle'
   color: 'red'

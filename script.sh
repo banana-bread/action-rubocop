@@ -20,19 +20,19 @@ if [ "${INPUT_SKIP_INSTALL}" = "false" ]; then
   # if 'gemfile' rubocop version selected
   if [ "${INPUT_RUBOCOP_VERSION}" = "gemfile" ]; then
     # if Gemfile.lock is here
-    if [ -f 'Gemfile.lock' ]; then
+    if [ -f "${INPUT_BUNDLE_GEMFILE}.lock" ]; then
       # grep for rubocop version
-      RUBOCOP_GEMFILE_VERSION=$(ruby -ne 'print $& if /^\s{4}rubocop\s\(\K.*(?=\))/' Gemfile.lock)
+      RUBOCOP_GEMFILE_VERSION=$(ruby -ne "print \$& if /^\s{4}rubocop\s\(\K.*(?=\))/" \"${INPUT_BUNDLE_GEMFILE}.lock\")
 
       # if rubocop version found, then pass it to the gem install
       # left it empty otherwise, so no version will be passed
       if [ -n "$RUBOCOP_GEMFILE_VERSION" ]; then
         RUBOCOP_VERSION=$RUBOCOP_GEMFILE_VERSION
       else
-        printf "Cannot get the rubocop's version from Gemfile.lock. The latest version will be installed."
+        printf "Cannot get the rubocop's version from ${INPUT_BUNDLE_GEMFILE}.lock. The latest version will be installed."
       fi
     else
-      printf 'Gemfile.lock not found. The latest version will be installed.'
+      printf "${INPUT_BUNDLE_GEMFILE}.lock not found. The latest version will be installed."
     fi
   else
     # set desired rubocop version
@@ -50,19 +50,19 @@ if [ "${INPUT_SKIP_INSTALL}" = "false" ]; then
     # if version is 'gemfile'
     if [ "${INPUT_RUBOCOP_EXTENSION_VERSION}" = "gemfile" ]; then
       # if Gemfile.lock is here
-      if [ -f 'Gemfile.lock' ]; then
+      if [ -f "${INPUT_BUNDLE_GEMFILE}.lock" ]; then
         # grep for rubocop extension version
-        RUBOCOP_EXTENSION_GEMFILE_VERSION=$(ruby -ne "print $& if /^\s{4}$INPUT_RUBOCOP_EXTENSION_NAME\s\(\K.*(?=\))/" Gemfile.lock)
+        RUBOCOP_EXTENSION_GEMFILE_VERSION=$(ruby -ne "print \$& if /^\s{4}\$INPUT_RUBOCOP_EXTENSION_NAME\s\(\K.*(?=\))/" \"${INPUT_BUNDLE_GEMFILE}.lock\")
 
         # if rubocop extension version found, then pass it to the gem install
         # left it empty otherwise, so no version will be passed
         if [ -n "$RUBOCOP_EXTENSION_GEMFILE_VERSION" ]; then
           RUBOCOP_EXTENSION_VERSION=$RUBOCOP_EXTENSION_GEMFILE_VERSION
         else
-          printf "Cannot get the rubocop extension version from Gemfile.lock. The latest version will be installed."
+          printf "Cannot get the rubocop extension version from ${INPUT_BUNDLE_GEMFILE}.lock. The latest version will be installed."
         fi
       else
-        printf 'Gemfile.lock not found. The latest version will be installed.'
+        printf "${INPUT_BUNDLE_GEMFILE}.lock not found. The latest version will be installed."
       fi
     else
       # set desired rubocop extension version
